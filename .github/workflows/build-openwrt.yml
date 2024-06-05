@@ -93,7 +93,13 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
+        
+    - name: Setup tmate session
+      if: github.event.inputs.ssh_enabled == 'true'
+      uses: mxschmitt/action-tmate@v3
+      with:
+        wait: true
+        
     - name: Compile the firmware
       id: compile
       run: |
