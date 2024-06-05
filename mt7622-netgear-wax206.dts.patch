@@ -1,0 +1,157 @@
+diff --git a/target/linux/mediatek/dts/mt7622-netgear-wax206.dts b/target/linux/mediatek/dts/mt7622-netgear-wax206.dts
+index 5dd386bcd..9a2575ba5 100644
+--- a/target/linux/mediatek/dts/mt7622-netgear-wax206.dts
++++ b/target/linux/mediatek/dts/mt7622-netgear-wax206.dts
+@@ -367,7 +367,6 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&serial_nand_pins>;
+ 	status = "okay";
+-
+ 	snand: flash@0 {
+ 		compatible = "spi-nand";
+ 		mediatek,bmt-table-size = <0x1000>;
+@@ -406,25 +405,28 @@
+ 			};
+ 
+ 			factory: partition@1c0000 {
+-				compatible = "nvmem-cells";
+ 				label = "Factory";
+ 				reg = <0x1c0000 0x0100000>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+ 				read-only;
+ 
+-				macaddr_factory_7fff4: macaddr@7fff4 {
+-					reg = <0x7fff4 0x6>;
+-				};
++				nvmem-layout {
++					compatible = "fixed-layout";
++					#address-cells = <1>;
++					#size-cells = <1>;
++
++					macaddr_factory_7fff4: macaddr@7fff4 {
++						reg = <0x7fff4 0x6>;
++					};
+ 
+-				macaddr_factory_7fffa: macaddr@7fffa {
+-					reg = <0x7fffa 0x6>;
++					macaddr_factory_7fffa: macaddr@7fffa {
++						reg = <0x7fffa 0x6>;
++					};
+ 				};
+ 			};
+ 
+ 			partition@2c0000 {
+ 				label = "firmware";
+-				reg = <0x2c0000 0x2600000>;
++				reg = <0x2c0000 0xdb40000>;  // 调整后的 firmware 分区大小 (219.5 MB)
+ 
+ 				compatible = "fixed-partitions";
+ 				#address-cells = <1>;
+@@ -432,83 +434,77 @@
+ 
+ 				partition@0 {
+ 					label = "kernel";
+-					reg = <0x0 0x600000>;
++					reg = <0x0 0x600000>;  // 6 MB
+ 				};
+ 
+ 				partition@600000 {
+ 					label = "ubi";
+-					reg = <0x600000 0x2000000>;
++					reg = <0x600000 0xd3a0000>;  // 213 MB
+ 				};
+ 			};
+ 
+-			partition@28c0000 {
+-				label = "firmware_backup";
+-				reg = <0x28c0000 0x2600000>;
+-				read-only;
+-			};
+-
+-			partition@4ec0000 {
++			partition@d8c0000 {
+ 				label = "CFG";
+-				reg = <0x4ec0000 0x800000>;
++				reg = <0xd8c0000 0x800000>;
+ 				read-only;
+ 			};
+ 
+-			partition@56c0000 {
++			partition@e0c0000 {
+ 				label = "RAE";
+-				reg = <0x56c0000 0x400000>;
++				reg = <0xe0c0000 0x400000>;
+ 				read-only;
+ 			};
+ 
+-			partition@5ac0000 {
++			partition@e4c0000 {
+ 				label = "POT";
+-				reg = <0x5ac0000 0x100000>;
++				reg = <0xe4c0000 0x100000>;
+ 				read-only;
+ 			};
+ 
+-			partition@5bc0000 {
++			partition@e5c0000 {
+ 				label = "Language";
+-				reg = <0x5bc0000 0x400000>;
++				reg = <0xe5c0000 0x400000>;
+ 				read-only;
+ 			};
+ 
+-			partition@5fc0000 {
++			partition@e9c0000 {
+ 				label = "Traffic";
+-				reg = <0x5fc0000 0x200000>;
++				reg = <0xe9c0000 0x200000>;
+ 				read-only;
+ 			};
+ 
+-			partition@61c0000 {
++			partition@ebc0000 {
+ 				label = "Cert";
+-				reg = <0x61c0000 0x100000>;
++				reg = <0xebc0000 0x100000>;
+ 				read-only;
+ 			};
+ 
+-			partition@62c0000 {
++			partition@ecc0000 {
+ 				label = "NTGRcryptK";
+-				reg = <0x62c0000 0x100000>;
++				reg = <0xecc0000 0x100000>;
+ 				read-only;
+ 			};
+ 
+-			partition@63c0000 {
++			partition@edc0000 {
+ 				label = "NTGRcryptD";
+-				reg = <0x63c0000 0x500000>;
++				reg = <0xedc0000 0x500000>;
+ 				read-only;
+ 			};
+ 
+-			partition@68c0000 {
++			partition@f2c0000 {
+ 				label = "LOG";
+-				reg = <0x68c0000 0x100000>;
++				reg = <0xf2c0000 0x100000>;
+ 				read-only;
+ 			};
+ 
+-			partition@69c0000 {
++			partition@f3c0000 {
+ 				label = "User_data";
+-				reg = <0x69c0000 0x640000>;
++				reg = <0xf3c0000 0x640000>;
+ 				read-only;
+ 			};
+-
+ 		};
+ 	};
++
+ };
+ 
+ &spi0 {

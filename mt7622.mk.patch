@@ -1,0 +1,13 @@
+diff --git a/target/linux/mediatek/image/mt7622.mk b/target/linux/mediatek/image/mt7622.mk
+index 3bd8bcb15..63c7083fa 100644
+--- a/target/linux/mediatek/image/mt7622.mk
++++ b/target/linux/mediatek/image/mt7622.mk
+@@ -239,7 +239,7 @@ define Device/netgear_wax206
+   BLOCKSIZE := 128k
+   PAGESIZE := 2048
+   KERNEL_SIZE := 6144k
+-  IMAGE_SIZE := 32768k
++  IMAGE_SIZE := 224768k
+   KERNEL := kernel-bin | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb | \
+ 	append-squashfs4-fakeroot
+ # recovery can also be used with stock firmware web-ui, hence the padding...
