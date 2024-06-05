@@ -99,6 +99,12 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
         
+    - name: Apply patches
+      run: |
+        cd openwrt
+        git apply $GITHUB_WORKSPACE/mt7622-netgear-wax206.dts.patch
+        git apply $GITHUB_WORKSPACE/mt7622.mk.patch
+        
     - name: Setup tmate session
       if: github.event.inputs.ssh_enabled == 'true'
       uses: mxschmitt/action-tmate@v3
